@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+  <script src="{{ url_for('static', filename='htmx.min.js') }}"></script>
+  <title>Obtener las opiniones de los profesores (UNI)</title>
+</head>
+<body>
+    <main>
+      <h2>Inserta el archivo</h2>
+        <form id="send-session-file-form">
+          <label for="sessions-file-input">Selecciona tu archivo de secciones</label>
+          <input type="file" accept=".csv" name="sessions_file" id="sessions-file-input">
+          <button 
+            hx-post="/send-file"
+            hx-encoding="multipart/form-data"
+            hx-target="main"
+            {# hx-push-url="/sessions" #}
+            type="submit">
+            Enviar
+          </button>
+        </form>
+      <em>Tu archivo será borrado después de 7 días</em>
+    </main>
+</body>
+</html>

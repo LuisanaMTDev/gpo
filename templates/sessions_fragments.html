@@ -1,0 +1,48 @@
+{% macro all_sessions(sessions) %}
+  <h1>Todas las secciones de tu archivo</h1>
+  <table id="sessions-table">
+    <thead>
+      <tr>
+        <th>NRC</th>
+        <th>Sec</th>
+        <th>Tipo</th>
+        <th>Campus</th>
+        <th>Horario</th>
+        <th>Días</th>
+        <th>Edificios</th>
+        <th>Aula</th>
+        <th>Modalidad</th>
+        <th>Cupos</th>
+        <th>Inscritos</th>
+        <th>Disponibles</th>
+        <th>Profesor(a)</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for session in sessions %}
+        <tr>
+          <td>{{ session["NRC"] }}</td>
+          <td>{{ session["Sec"] }}</td>
+          <td>{{ session["Tipo"] }}</td>
+          <td>{{ session["Campus"] }}</td>
+          <td>{{ session["Horario"] }}</td>
+          <td>{{ session["Días"] }}</td>
+          <td>{{ session["Edificios"] }}</td>
+          <td>{{ session["Aula"] }}</td>
+          <td>{{ session["Modalidad"] }}</td>
+          <td>{{ session["Cupos"] }}</td>
+          <td>{{ session["Inscritos"] }}</td>
+          <td>{{ session["Disponibles"] }}</td>
+          <td>{{ session["Profesor(a)"] }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <section>
+
+  </section>
+{% endmacro %}
+
+{% if fragment == 'all_sessions' %}
+  {{ all_sessions(sessions) }}
+{% endif %}

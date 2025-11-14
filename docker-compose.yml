@@ -1,0 +1,12 @@
+services:
+  redis:
+    image: redis:latest
+    container_name: redis-gpo-local
+    ports:
+      - "5002:5002"
+    volumes:
+      - redis-data:/data
+    command: redis-server --appendonly yes
+
+volumes:
+  redis-data:

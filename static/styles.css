@@ -1,0 +1,46 @@
+:root {
+  font-family: sans-serif;
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+}
+
+h1, h2 {
+  align-self: center;
+}
+
+em {
+  align-self: center;
+  font-size: 0.8rem;
+  font-weight: bold;
+}
+
+#send-session-file-form {
+  align-self: center;
+  display: inherit;
+  flex-direction: column;
+  gap: 1rem;
+
+  label {
+    align-self: center;
+  }
+}
+
+#sessions-table {
+  border-collapse: collapse;
+  border: 1px solid black;
+
+  th, td {
+    border: 1px solid black;
+  }
+  
+  th {
+    background-color: #4287f5;
+  }
+
+  td {
+    text-align: center;
+  }
+}
