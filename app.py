@@ -1,10 +1,43 @@
+import os
 from io import StringIO
 
-from flask import Flask, render_template, request
+from dotenv import load_dotenv
+from flask import Flask, abort, make_response, render_template, request
+from redis import ConnectionPool, Redis
 
 from sessions import filter_sessions, get_sessions_as_list_of_dicts
 
 app = Flask(__name__)
+_ = load_dotenv()
+platform = os.getenv("PLATFORM")
+
+match platform:
+    case "DEV":
+        redis_client = Redis(host="localhost", port=5002, db=0, decode_responses=True)
+    case "PROD":
+        redis_pool = ConnectionPool(
+            host="localhost",
+            port=5002,
+            db=1,
+            decode_responses=True,
+            max_connections=5,
+        )
+
+        redis_client = Redis(connection_pool=redis_pool)
+    case "TEST":
+        redis_pool = ConnectionPool(
+            host="localhost",
+            port=5002,
+            db=3,
+            decode_responses=True,
+            max_connections=5,
+        )
+
+        redis_client = Redis(connection_pool=redis_pool)
+    case _:
+        print("ERROR: platform is a unknown string (str)")
+        abort(500)
+
 
 # NOTE: for uwsgi
 application = app
