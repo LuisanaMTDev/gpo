@@ -11,3 +11,4 @@ wheels/
 
 # Developer added
 .txt
+node_modules/
