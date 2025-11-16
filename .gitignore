@@ -10,7 +10,7 @@ wheels/
 .venv
 
 # Developer added
-.txt
+log_output.txt
 .env
 excel-files/
 node_modules/
