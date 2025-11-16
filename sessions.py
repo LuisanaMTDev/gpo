@@ -1,5 +1,5 @@
 from io import StringIO
-from typing import Any, Hashable
+from typing import Hashable
 
 import pandas as pd
 
