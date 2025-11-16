@@ -49,9 +49,9 @@ def get_sessions_as_list_of_dicts(csv_file: StringIO) -> list[dict[Hashable, str
 
 def get_unique_days_and_hours(
     csv_file: StringIO,
-):
+) -> tuple[list[str], list[str]]:
     df = pd.read_csv(csv_file)
-    days = df["Días"].unique()
-    hours = df["Horario"].unique()
+    days: list[str] = df["Días"].unique().astype(str).tolist()
+    hours: list[str] = df["Horario"].unique().astype(str).tolist()
 
     return (days, hours)
