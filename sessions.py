@@ -43,7 +43,9 @@ def filter_sessions(csv_file: StringIO) -> tuple[list[dict[Hashable, str]], bool
     return (filtered_sessions.to_dict("records"), is7030)
 
 
-def get_sessions_as_list_of_dicts(csv_file: StringIO) -> list[dict[Hashable, str]]:
+def get_unfiltered_sessions_as_list_of_dicts(
+    csv_file: StringIO,
+) -> list[dict[Hashable, str]]:
     return pd.read_csv(csv_file).to_dict("records")
 
 

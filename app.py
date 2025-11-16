@@ -5,7 +5,11 @@ from dotenv import load_dotenv
 from flask import Flask, abort, make_response, render_template, request
 from redis import ConnectionPool, Redis
 
-from sessions import filter_sessions, get_sessions_as_list_of_dicts
+from sessions import (
+    filter_sessions,
+    get_unfiltered_sessions_as_list_of_dicts,
+    get_unique_days_and_hours,
+)
 
 app = Flask(__name__)
 _ = load_dotenv()
@@ -52,12 +56,12 @@ def index_page():
 def get_csv_file():
     sessions_file = request.files["sessions_file"]
     with StringIO(sessions_file.stream.read().decode("UTF8"), newline=None) as stream:
-        sessions = get_sessions_as_list_of_dicts(stream)
 
     return render_template(
         "sessions_fragments.html",
         fragment="all_sessions",
         sessions=sessions,
+        sessions = get_unfiltered_sessions_as_list_of_dicts(stream)
     )
 
 
