@@ -3,26 +3,28 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
   <script src="{{ url_for('static', filename='htmx.min.js') }}"></script>
   <title>Obtener las opiniones de los profesores (UNI)</title>
 </head>
 <body>
-    <main>
-      <h2>Inserta el archivo</h2>
-        <form id="send-session-file-form">
-          <label for="sessions-file-input">Selecciona tu archivo de secciones</label>
-          <input type="file" accept=".csv" name="sessions_file" id="sessions-file-input">
+    <main class="flex flex-col gap-1 font-[sans-serif]">
+      <h2 class="self-center font-bold text-2xl">Inserta el archivo</h2>
+        <form class="self-center flex flex-col gap-1">
+          <label for="sessions-file-input" class="self-center">Selecciona tu archivo de secciones</label>
+          <input type="file" accept=".csv" name="sessions_file" class="border-2 p-1.5 rounded-xl">
           <button 
             hx-post="/send-file"
             hx-encoding="multipart/form-data"
             hx-target="main"
+            {# TODO: remove the below comment after implement /sessions endpoint #}
             {# hx-push-url="/sessions" #}
-            type="submit">
-            Enviar
+            type="submit"
+            class="self-center bg-blue-300 w-32 rounded-2xl"
+            >Enviar
           </button>
         </form>
-      <em>Tu archivo será borrado después de 7 días</em>
+      <em class="self-center font-bold text-xs">Tu archivo será borrado después de 7 días</em>
     </main>
 </body>
 </html>

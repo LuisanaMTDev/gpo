@@ -1,48 +1,67 @@
-{% macro all_sessions(sessions) %}
-  <h1>Todas las secciones de tu archivo</h1>
-  <table id="sessions-table">
+{% macro all_sessions(sessions, hours, days) %}
+  <h1 class="self-center font-bold text-3xl">Todas las secciones de tu archivo</h1>
+  <table class="border-collapse border m-4">
     <thead>
       <tr>
-        <th>NRC</th>
-        <th>Sec</th>
-        <th>Tipo</th>
-        <th>Campus</th>
-        <th>Horario</th>
-        <th>Días</th>
-        <th>Edificios</th>
-        <th>Aula</th>
-        <th>Modalidad</th>
-        <th>Cupos</th>
-        <th>Inscritos</th>
-        <th>Disponibles</th>
-        <th>Profesor(a)</th>
+        <th class="border bg-blue-300">NRC</th>
+        <th class="border bg-blue-300">Sec</th>
+        <th class="border bg-blue-300">Tipo</th>
+        <th class="border bg-blue-300">Campus</th>
+        <th class="border bg-blue-300">Horario</th>
+        <th class="border bg-blue-300">Días</th>
+        <th class="border bg-blue-300">Edificios</th>
+        <th class="border bg-blue-300">Aula</th>
+        <th class="border bg-blue-300">Modalidad</th>
+        <th class="border bg-blue-300">Cupos</th>
+        <th class="border bg-blue-300">Inscritos</th>
+        <th class="border bg-blue-300">Disponibles</th>
+        <th class="border bg-blue-300">Profesor(a)</th>
       </tr>
     </thead>
     <tbody>
       {% for session in sessions %}
+      {# NOTE: use loop.last when rendering the last lab row in a 70/30 subject to apply style #}
+      {# indicading diferent type of subject #}
         <tr>
-          <td>{{ session["NRC"] }}</td>
-          <td>{{ session["Sec"] }}</td>
-          <td>{{ session["Tipo"] }}</td>
-          <td>{{ session["Campus"] }}</td>
-          <td>{{ session["Horario"] }}</td>
-          <td>{{ session["Días"] }}</td>
-          <td>{{ session["Edificios"] }}</td>
-          <td>{{ session["Aula"] }}</td>
-          <td>{{ session["Modalidad"] }}</td>
-          <td>{{ session["Cupos"] }}</td>
-          <td>{{ session["Inscritos"] }}</td>
-          <td>{{ session["Disponibles"] }}</td>
-          <td>{{ session["Profesor(a)"] }}</td>
+          <td class="border text-center">{{ session["NRC"] }}</td>
+          <td class="border text-center">{{ session["Sec"] }}</td>
+          <td class="border text-center">{{ session["Tipo"] }}</td>
+          <td class="border text-center">{{ session["Campus"] }}</td>
+          <td class="border text-center">{{ session["Horario"] }}</td>
+          <td class="border text-center">{{ session["Días"] }}</td>
+          <td class="border text-center">{{ session["Edificios"] }}</td>
+          <td class="border text-center">{{ session["Aula"] }}</td>
+          <td class="border text-center">{{ session["Modalidad"] }}</td>
+          <td class="border text-center">{{ session["Cupos"] }}</td>
+          <td class="border text-center">{{ session["Inscritos"] }}</td>
+          <td class="border text-center">{{ session["Disponibles"] }}</td>
+          <td class="border text-center">{{ session["Profesor(a)"] }}</td>
         </tr>
       {% endfor %}
     </tbody>
   </table>
-  <section>
-
+  <section class="flex justify-evenly">
+    <article class="flex flex-col">
+      <h2>Días a excluir</h2>
+      {% for day in days %}
+      {# NOTE: on pyhton loop over the input values by name-index and stop the loop when aren't more. #}
+      <label>
+        <input type="checkbox" name="day_to_exclude-{{ loop.index }}" value="{{ day }}"> {{ day }}
+      </label>
+      {% endfor %}
+    </article>
+    <article class="flex flex-col">
+      <h2>Horas a excluir</h2>
+      {% for hour in hours %}
+      {# NOTE: on pyhton loop over the input values by name-index and stop the loop when aren't more. #}
+      <label>
+        <input type="checkbox" name="day_to_exclude-{{ loop.index }}" value="{{ hour }}"> {{ hour }}
+      </label>
+      {% endfor %}
+    </article>
   </section>
 {% endmacro %}
 
 {% if fragment == 'all_sessions' %}
-  {{ all_sessions(sessions) }}
+  {{ all_sessions(sessions, hours, days) }}
 {% endif %}
