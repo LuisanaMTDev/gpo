@@ -40,7 +40,7 @@
       {% endfor %}
     </tbody>
   </table>
-  <section class="flex justify-evenly">
+  <form id="day-and-hours-to-exclude" class="flex justify-evenly">
     <article class="flex flex-col">
       <h2>Días a excluir</h2>
       {% for day in days %}
@@ -59,7 +59,7 @@
       </label>
       {% endfor %}
     </article>
-  </section>
+  </form>
 
 {% macro filtered_sessions(sessions) %}
   <h1 class="self-center font-bold text-3xl max-sm:text-[1.5rem]">Resultado de la filtración</h1>
