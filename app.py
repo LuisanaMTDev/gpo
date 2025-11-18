@@ -113,10 +113,26 @@ def return_sessions_if_exists():
     )
 
 
-# TODO: Add when have redis db ready
-# when the user goes to this endpoint send then their sessions file or
-# redirect them to / is there's none.
-# @app.get("/sessions")
+@app.get("/filter")
+def return_filtered_sessions():
+    sessions_file_key = request.cookies.get("sessions_file_key")
+    if sessions_file_key is None:
+        response = make_response("", 308)
+        response.headers.set("Location", "/")
+        return response
+
+    days_to_exclude = request.args.getlist("days-to-exclude")
+    hours_to_exclude = request.args.getlist("hours-to-exclude")
+    sessions_as_str = redis_client.get(sessions_file_key)
+    filtered_sessions, _ = filter_sessions(
+        StringIO(sessions_as_str), days_to_exclude, hours_to_exclude
+    )
+
+    return render_template(
+        "sessions_fragments.html",
+        fragment="filtered_sessions",
+        sessions=filtered_sessions,
+    )
 
 
 if __name__ == "__main__":
