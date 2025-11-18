@@ -11,10 +11,11 @@ separándolas por tipo en la interfaz, en el template (interfaz) agregarle una c
 al último elemento del tipo Laboratorio agregarle un estilo (css) para que actúe cómo separación para el usuario usando .class:last-of-type.
 
 - [X] Ordenar las filas por tipos con pandas.
-- [ ] Agregar las clases y el estilo separador.
 
 ## Current
-- [ ] Terminar el renderizado de los datos en el archivo csv y las opciones de filtración.
-- [ ] Agregar una flask session desde el endpoint /send-file que almacene como valor el redis key del archivo csv del usuario,
-para poder ponerlo como header de mis request con htmx (en el atributo htmx hx-headears).
+- [X] Terminar el renderizado de los datos en el archivo csv y las opciones de filtración.
+- [X] Agregar una flask session desde el endpoint /send-file que almacene como valor el redis key del archivo csv del usuario,
+para poder ponerlo como header de mis request con htmx (en el atributo htmx hx-headears). 
+> - [!IMPORTANT]
+> At the end I did it with a cookie.
 
