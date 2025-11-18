@@ -8,7 +8,11 @@
   <title>Obtener las opiniones de los profesores (UNI)</title>
 </head>
 <body>
+  {% from 'sessions_fragments.html' import all_sessions %}
     <main class="flex flex-col gap-1 font-[sans-serif]">
+      {% if fragment == 'all_sessions' %}
+        {{ all_sessions(sessions, hours, days) }}
+      {% else %}
       <h2 class="self-center font-bold text-2xl">Inserta el archivo</h2>
         <form class="self-center flex flex-col gap-1">
           <label for="sessions-file-input" class="self-center">Selecciona tu archivo de secciones</label>
@@ -17,14 +21,14 @@
             hx-post="/send-file"
             hx-encoding="multipart/form-data"
             hx-target="main"
-            {# TODO: remove the below comment after implement /sessions endpoint #}
-            {# hx-push-url="/sessions" #}
+            hx-push-url="/sessions"
             type="submit"
             class="self-center bg-blue-300 w-32 rounded-2xl"
             >Enviar
           </button>
         </form>
       <em class="self-center font-bold text-xs">Tu archivo será borrado después de 7 días</em>
+      {% endif %}
     </main>
 </body>
 </html>
