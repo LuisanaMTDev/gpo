@@ -60,8 +60,51 @@
       {% endfor %}
     </article>
   </section>
+
+{% macro filtered_sessions(sessions) %}
+  <h1 class="self-center font-bold text-3xl max-sm:text-[1.5rem]">Resultado de la filtración</h1>
+  <table class="border-collapse border m-4">
+    <thead>
+      <tr>
+        <th class="border bg-blue-300">NRC</th>
+        <th class="border bg-blue-300">Sec</th>
+        <th class="border bg-blue-300">Tipo</th>
+        <th class="border bg-blue-300">Campus</th>
+        <th class="border bg-blue-300">Horario</th>
+        <th class="border bg-blue-300">Días</th>
+        <th class="border bg-blue-300">Edificios</th>
+        <th class="border bg-blue-300">Aula</th>
+        <th class="border bg-blue-300">Modalidad</th>
+        <th class="border bg-blue-300">Cupos</th>
+        <th class="border bg-blue-300">Inscritos</th>
+        <th class="border bg-blue-300">Disponibles</th>
+        <th class="border bg-blue-300">Profesor(a)</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for filtered_session in sessions %}
+        <tr>
+          <td class="border text-center">{{ filtered_session["NRC"] }}</td>
+          <td class="border text-center">{{ filtered_session["Sec"] }}</td>
+          <td class="border text-center">{{ filtered_session["Tipo"] }}</td>
+          <td class="border text-center">{{ filtered_session["Campus"] }}</td>
+          <td class="border text-center">{{ filtered_session["Horario"] }}</td>
+          <td class="border text-center">{{ filtered_session["Días"] }}</td>
+          <td class="border text-center">{{ filtered_session["Edificios"] }}</td>
+          <td class="border text-center">{{ filtered_session["Aula"] }}</td>
+          <td class="border text-center">{{ filtered_session["Modalidad"] }}</td>
+          <td class="border text-center">{{ filtered_session["Cupos"] }}</td>
+          <td class="border text-center">{{ filtered_session["Inscritos"] }}</td>
+          <td class="border text-center">{{ filtered_session["Disponibles"] }}</td>
+          <td class="border text-center">{{ filtered_session["Profesor(a)"] }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
 {% endmacro %}
 
 {% if fragment == 'all_sessions' %}
   {{ all_sessions(sessions, hours, days) }}
+{% elif fragment == 'filtered_sessions' %}
+  {{ filtered_sessions(sessions) }}
 {% endif %}
