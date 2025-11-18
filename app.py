@@ -91,11 +91,25 @@ def get_csv_file():
 
     return response
 
+
+@app.get("/sessions")
+def return_sessions_if_exists():
+    sessions_file_key = request.cookies.get("sessions_file_key")
+    if sessions_file_key is None:
+        response = make_response("", 308)
+        response.headers.set("Location", "/")
+        return response
+
+    sessions_as_str = redis_client.get(sessions_file_key)
+    sessions = get_unfiltered_sessions_as_list_of_dicts(StringIO(sessions_as_str))
+    days, hours = get_unique_days_and_hours(StringIO(sessions_as_str))
+
     return render_template(
-        "sessions_fragments.html",
+        "index.html",
         fragment="all_sessions",
         sessions=sessions,
-        sessions = get_unfiltered_sessions_as_list_of_dicts(stream)
+        days=days,
+        hours=hours,
     )
 
 
