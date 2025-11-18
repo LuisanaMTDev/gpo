@@ -56,6 +56,14 @@
       {% endfor %}
     </article>
   </form>
+<button
+  hx-include="#day-and-hours-to-exclude"
+  hx-get="/filter"
+  hx-target="main"
+  type="submit"
+  class="self-center bg-blue-300 w-32 rounded-2xl"
+  >Filtrar</button>
+{% endmacro %}
 
 {% macro filtered_sessions(sessions) %}
   <h1 class="self-center font-bold text-3xl max-sm:text-[1.5rem]">Resultado de la filtración</h1>
