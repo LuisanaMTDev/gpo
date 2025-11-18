@@ -20,8 +20,6 @@
     </thead>
     <tbody>
       {% for session in sessions %}
-      {# NOTE: use loop.last when rendering the last lab row in a 70/30 subject to apply style #}
-      {# indicading diferent type of subject #}
         <tr>
           <td class="border text-center">{{ session["NRC"] }}</td>
           <td class="border text-center">{{ session["Sec"] }}</td>
@@ -44,18 +42,16 @@
     <article class="flex flex-col">
       <h2>Días a excluir</h2>
       {% for day in days %}
-      {# NOTE: on pyhton loop over the input values by name-index and stop the loop when aren't more. #}
       <label>
-        <input type="checkbox" name="day_to_exclude-{{ loop.index }}" value="{{ day }}"> {{ day }}
+        <input type="checkbox" name="days-to-exclude" value="{{ day }}"> {{ day }}
       </label>
       {% endfor %}
     </article>
     <article class="flex flex-col">
       <h2>Horas a excluir</h2>
       {% for hour in hours %}
-      {# NOTE: on pyhton loop over the input values by name-index and stop the loop when aren't more. #}
       <label>
-        <input type="checkbox" name="day_to_exclude-{{ loop.index }}" value="{{ hour }}"> {{ hour }}
+        <input type="checkbox" name="hours-to-exclude" value="{{ hour }}"> {{ hour }}
       </label>
       {% endfor %}
     </article>
