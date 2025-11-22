@@ -4,6 +4,7 @@ from typing import override
 
 from sessions import (
     filter_sessions,
+    get_professors_names,
     get_unfiltered_sessions_as_list_of_dicts,
     get_unique_days_and_hours,
 )
@@ -144,6 +145,16 @@ class TestSessionsFuntions(unittest.TestCase):
 
         self.assertEqual(days, expected_days)
         self.assertEqual(hours, expected_hours)
+
+    def test_get_professors_names(self):
+        professors_names = get_professors_names(StringIO(self.sessions_file.read()))
+        expected_profesors_names = [
+            "Cristino Castillo Marte",
+            "Marc Kelly Jean Philippe",
+            "Eric Tomas Beriguete Galan",
+            "Elpidio Antonio Perez Vargas",
+        ]
+        self.assertEqual(professors_names, expected_profesors_names)
 
     @override
     def tearDown(self) -> None:
