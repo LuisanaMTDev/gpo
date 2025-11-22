@@ -128,6 +128,14 @@ def return_filtered_sessions():
         response.headers.set("Location", "/")
         return response
 
+    if (
+        request.args.get("days-to-exclude") is None
+        and request.args.get("hours-to-exclude") is None
+    ):
+        response = make_response("", 304)
+        response.headers.set("HX-Refresh", "true")
+        return response
+
     days_to_exclude = request.args.getlist("days-to-exclude")
     hours_to_exclude = request.args.getlist("hours-to-exclude")
     sessions_as_str = redis_client.get(sessions_file_key)
