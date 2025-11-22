@@ -6,6 +6,11 @@ from dotenv import load_dotenv
 from flask import Flask, abort, make_response, render_template, request
 from redis import ConnectionPool, Redis
 
+from opinions import (
+    format_profesor_name,
+    get_professor_opinions,
+    order_professor_opinions,
+)
 from sessions import (
     filter_sessions,
     get_unfiltered_sessions_as_list_of_dicts,
@@ -132,6 +137,28 @@ def return_filtered_sessions():
         "sessions_fragments.html",
         fragment="filtered_sessions",
         sessions=filtered_sessions,
+
+
+@app.get("/professor-opinions")
+def return_professor_opinions():
+    professor_name = request.args.get("professor_name")
+    if professor_name is None:
+        response = make_response("", 400)
+        response.headers.set("HX-Refresh", "true")
+        return response
+
+    # FIX: All professors names are being returned, I just want the names
+    # of professors on the filtered sessions.
+    # NOTE: Idea: save the filtered sessions on the db establish a "relation"
+    # between the filtered sessions and the unfiltered sessions.
+    professor_opinions = order_professor_opinions(
+        get_professor_opinions(format_profesor_name(professor_name))
+    )
+    return render_template(
+        "opinions_fragments.html",
+        fragment="professors_opinions",
+        opinions=professor_opinions,
+        profesor_name=professor_name,
     )
 
 
