@@ -62,8 +62,7 @@ def index_page():
 
 @app.post("/send-file")
 def get_csv_file():
-    # # NOTE: 604800 are the amount of seconds that 7 days has
-    SF_EXPIRED_DATE = 60
+    SF_EXPIRED_DATE = 86400
     sessions_file = request.files.get("sessions_file")
     if sessions_file is None:
         # TODO: This should return a response with some html indicating the error
