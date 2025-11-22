@@ -1,0 +1,15 @@
+{% macro professors_opinions(opinions, profesor_name ) %}
+<summary>{{ profesor_name }}</summary>
+<section class="flex flex-col gap-4">
+  {% for i in range(opinions[0]|length) %}
+  <article class="flex gap-4 bg-gray-200 rounded-md p-3">
+    <p class="w-44 text-nowrap">{{ opinions[0][i] }}</p>
+    <em class="w-3/4">{{ opinions[1][i] }}</em>
+  </article>
+  {% endfor %}
+</section>
+{% endmacro %}
+
+{% if fragment == 'professors_opinions' %}
+  {{ professors_opinions(opinions, profesor_name ) }}
+{% endif %}
