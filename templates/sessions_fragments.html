@@ -65,7 +65,7 @@
   >Filtrar</button>
 {% endmacro %}
 
-{% macro filtered_sessions(sessions) %}
+{% macro filtered_sessions(sessions, professors_names) %}
   <h1 class="self-center font-bold text-3xl max-sm:text-[1.5rem]">Resultado de la filtración</h1>
   <table class="border-collapse border m-4">
     <thead>
@@ -105,10 +105,21 @@
       {% endfor %}
     </tbody>
   </table>
+  <section class="m-4">
+    {% for professor_name  in professors_names %}
+      <details>
+        <summary
+          hx-get="/professor-opinions"
+          hx-vals='{"professor_name": "{{ professor_name }}"}'
+          hx-swap="outerHTML"
+          >Opiniones sobre {{ professor_name }}</summary>
+      </details>
+    {% endfor %}
+  </section>
 {% endmacro %}
 
 {% if fragment == 'all_sessions' %}
   {{ all_sessions(sessions, hours, days) }}
 {% elif fragment == 'filtered_sessions' %}
-  {{ filtered_sessions(sessions) }}
+  {{ filtered_sessions(sessions, professors_names) }}
 {% endif %}
