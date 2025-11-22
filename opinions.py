@@ -4,7 +4,7 @@ import requests
 from bs4 import BeautifulSoup
 
 
-def get_professor_opinios(professor_name: str):
+def get_professor_opinions(professor_name: str):
     html_doc = requests.get(
         f"https://www.nuevosemestre.com/profesor/{professor_name}"
     ).text
