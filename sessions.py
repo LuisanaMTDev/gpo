@@ -72,3 +72,20 @@ def get_unique_days_and_hours(
     hours: list[str] = df["Horario"].unique().astype(str).tolist()
 
     return (days, hours)
+
+
+def get_professors_names(csv_file: StringIO) -> list[str]:
+    df = pd.read_csv(csv_file)
+    return df["Profesor(a)"].unique().astype(str).tolist()
+
+
+def filtered_sessions_to_stringio(
+    filtered_sessions: list[dict[Hashable, str]],
+) -> StringIO:
+    df = pd.DataFrame(filtered_sessions)
+
+    filtered_sessions_buffer = StringIO()
+    df.to_csv(filtered_sessions_buffer, sep=",", index=False)
+    _ = filtered_sessions_buffer.seek(0)
+
+    return filtered_sessions_buffer
