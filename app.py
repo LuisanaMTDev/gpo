@@ -13,6 +13,8 @@ from opinions import (
 )
 from sessions import (
     filter_sessions,
+    filtered_sessions_to_stringio,
+    get_professors_names,
     get_unfiltered_sessions_as_list_of_dicts,
     get_unique_days_and_hours,
 )
@@ -132,11 +134,16 @@ def return_filtered_sessions():
     filtered_sessions, _ = filter_sessions(
         StringIO(sessions_as_str), days_to_exclude, hours_to_exclude
     )
+    professors_names = get_professors_names(
+        filtered_sessions_to_stringio(filtered_sessions)
+    )
 
     return render_template(
         "sessions_fragments.html",
         fragment="filtered_sessions",
         sessions=filtered_sessions,
+        professors_names=professors_names,
+    )
 
 
 @app.get("/professor-opinions")
