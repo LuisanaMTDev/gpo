@@ -22,7 +22,7 @@ def get_professor_opinions(professor_name: str):
 
 def format_profesor_name(professor_name: str):
     return (
-        normalize("NFD", professor_name.lower().replace(" ", "-"))
+        normalize("NFD", professor_name.lower().replace(" ", "-").replace(".", ""))
         .encode("ascii", "ignore")
         .decode("utf-8")
     )
