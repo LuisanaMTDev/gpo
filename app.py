@@ -2,6 +2,7 @@ import os
 import time
 from io import StringIO
 
+import pandas
 from dotenv import load_dotenv
 from flask import Flask, abort, make_response, render_template, request
 from redis import ConnectionPool, Redis
@@ -62,7 +63,7 @@ def index_page():
 
 @app.post("/send-file")
 def get_csv_file():
-    SF_EXPIRED_DATE = 86400
+    SF_EXPIRED_DATE = 3600
     sessions_file = request.files.get("sessions_file")
     if sessions_file is None:
         # TODO: This should return a response with some html indicating the error
@@ -87,13 +88,37 @@ def get_csv_file():
             hours=hours,
         )
     )
-    response.set_cookie(
-        key="sessions_file_key",
-        value=f"sf-{timestamp}",
-        max_age=SF_EXPIRED_DATE,
-        httponly=True,
-        # TODO: Add on production secure and samesite parameters.
-    )
+
+    match platform:
+        case "DEV":
+            response.set_cookie(
+                key="sessions_file_key",
+                value=f"sf-{timestamp}",
+                max_age=SF_EXPIRED_DATE,
+                httponly=True,
+                samesite="Strict",
+            )
+        case "PROD":
+            response.set_cookie(
+                key="sessions_file_key",
+                value=f"sf-{timestamp}",
+                max_age=SF_EXPIRED_DATE,
+                httponly=True,
+                samesite="Strict",
+                secure=True,
+            )
+        case "TEST":
+            response.set_cookie(
+                key="sessions_file_key",
+                value=f"sf-{timestamp}",
+                max_age=SF_EXPIRED_DATE,
+                httponly=True,
+                samesite="Strict",
+                secure=True,
+            )
+        case _:
+            print("ERROR: platform is a unknown string (str)")
+            abort(500)
 
     return response
 
@@ -141,9 +166,12 @@ def return_filtered_sessions():
     filtered_sessions, _ = filter_sessions(
         StringIO(sessions_as_str), days_to_exclude, hours_to_exclude
     )
-    professors_names = get_professors_names(
-        filtered_sessions_to_stringio(filtered_sessions)
-    )
+    try:
+        professors_names: list[str] | str = get_professors_names(
+            filtered_sessions_to_stringio(filtered_sessions)
+        )
+    except pandas.errors.EmptyDataError:
+        professors_names = "No professor fits criteria"
 
     return render_template(
         "sessions_fragments.html",
@@ -161,10 +189,6 @@ def return_professor_opinions():
         response.headers.set("HX-Refresh", "true")
         return response
 
-    # FIX: All professors names are being returned, I just want the names
-    # of professors on the filtered sessions.
-    # NOTE: Idea: save the filtered sessions on the db establish a "relation"
-    # between the filtered sessions and the unfiltered sessions.
     professor_opinions = order_professor_opinions(
         get_professor_opinions(format_profesor_name(professor_name))
     )
