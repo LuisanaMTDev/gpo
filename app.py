@@ -5,7 +5,7 @@ from io import StringIO
 import pandas
 from dotenv import load_dotenv
 from flask import Flask, abort, make_response, render_template, request
-from redis import ConnectionPool, Redis
+from redis import ConnectionPool, Redis, from_url
 
 from opinions import (
     format_profesor_name,
@@ -28,15 +28,7 @@ match platform:
     case "DEV":
         redis_client = Redis(host="localhost", port=5002, db=0, decode_responses=True)
     case "PROD":
-        redis_pool = ConnectionPool(
-            host="localhost",
-            port=5002,
-            db=1,
-            decode_responses=True,
-            max_connections=5,
-        )
-
-        redis_client = Redis(connection_pool=redis_pool)
+        redis_client = from_url(os.getenv("REDIS_DB_URL"))
     case "TEST":
         redis_pool = ConnectionPool(
             host="localhost",
